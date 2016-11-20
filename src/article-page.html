@@ -1,0 +1,55 @@
+<html><head><link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-material/paper-material.html">
+
+</head><body><dom-module id="article-page">
+  <template>
+    <style>
+        :host {
+            display: block;
+            margin: 0;
+        }
+
+        :host:before {
+            content: "";
+            display: block;
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -10;
+            background-image: var(--article-page-background-image, url("../images/background.png"));
+        }
+
+        paper-material {
+            margin: 0 10;
+            padding: 1em;
+                background-color: rgba(160, 160, 160, 0.5);
+                background-attachment: fixed;
+        }
+
+        @media (min-width: 50em) {
+            paper-material {
+                margin: 0 auto;
+                padding: 1em;
+                width: 750px;
+                background-color: #aaa;
+            }
+        }
+
+        @media (max-width: 426px) {
+            paper-material {
+                /*opacity: 0.5;*/
+                background-color: rgba(160, 160, 160, 0.5);
+                background-attachment: fixed;
+            }
+        }
+
+    </style>
+    <paper-material elevation="1">
+      <slot></slot>
+    </paper-material>
+  </template>
+  <script>Polymer({is:"article-page",attached:function(){var e=this;Polymer.dom(this).querySelectorAll("code[class^=language-]").forEach(function(a){var t=a.className.match(/language-\S+/)[0].split("-")[1],n=a.innerHTML.replace(/&lt;/g,"<").replace(/&gt;/g,">");"PRE"===a.parentNode.nodeName&&(n=e.normalizeWS(n),a.parentNode.classList.add("language-"+t)),a.innerHTML=e.highlight(n,t)})},highlight:function(e,a){return this.fire("syntax-highlight",{code:e,lang:a}).detail.code},normalizeWS:function(e){var a,t=e.split("\n").slice(1,-1);for(a=0;" "===t[0].charAt(a);a++);var n;for(n=0;n<t.length;n++)t[n]=t[n].substr(a-1);return t.join("\n")}});</script>
+</dom-module>
+</body></html>
